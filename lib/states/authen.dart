@@ -22,7 +22,7 @@ class Authen extends StatelessWidget {
                     children: [
                       displayLogoAndAppName(),
                       WidgetForm(hint: 'Email :', sufficWidget: Icon(Icons.email),),
-                      WidgetForm(hint: 'Password :',),
+                      WidgetForm(hint: 'Password :', obsecu: true,),
                     ],
                   ),
                 ),
