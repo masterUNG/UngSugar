@@ -24,6 +24,10 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
 
   final formKey = GlobalKey<FormState>();
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -52,6 +56,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                   child: Column(
                     children: [
                       WidgetForm(
+                        textEditingController: nameController,
                         validateFunc: (p0) {
                           if (p0?.isEmpty ?? true) {
                             return 'โปรดกรอก ชื่อ';
@@ -62,6 +67,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                         labelWidget: const WidgetText(data: 'Displey Name :'),
                       ),
                       WidgetForm(
+                        textEditingController: emailController,
                         validateFunc: (p0) {
                           if (p0?.isEmpty ?? true) {
                             return 'Please Fill Email';
@@ -72,6 +78,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                         labelWidget: const WidgetText(data: 'Email :'),
                       ),
                       WidgetForm(
+                        textEditingController: passwordController,
                         validateFunc: (p0) {
                           if (p0?.isEmpty ?? true) {
                             return 'Please Fill Password';
@@ -92,8 +99,12 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                               colorText: GFColors.WHITE,
                             );
                           } else if (formKey.currentState!.validate()) {
-                            
-                          } 
+                            AppService().processCreateNewAccount(
+                              name: nameController.text,
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
+                          }
                         },
                       ),
                     ],

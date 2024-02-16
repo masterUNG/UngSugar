@@ -11,6 +11,7 @@ class WidgetForm extends StatelessWidget {
     this.obsecu,
     this.validateFunc,
     this.labelWidget,
+    this.textEditingController,
   }) : super(key: key);
 
   final String? hint;
@@ -18,14 +19,18 @@ class WidgetForm extends StatelessWidget {
   final bool? obsecu;
   final String? Function(String?)? validateFunc;
   final Widget? labelWidget;
+  final TextEditingController? textEditingController;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 16),
-      child: TextFormField(validator: validateFunc,
+      child: TextFormField(
+        controller: textEditingController,
+        validator: validateFunc,
         obscureText: obsecu ?? false,
-        decoration: InputDecoration(label: labelWidget,
+        decoration: InputDecoration(
+          label: labelWidget,
           filled: true,
           fillColor: AppConstant.fieldColor,
           // border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
