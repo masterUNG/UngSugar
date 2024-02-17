@@ -11,6 +11,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:ungsugar/models/respon_model.dart';
 import 'package:ungsugar/models/user_api_model.dart';
 import 'package:ungsugar/models/user_model.dart';
+import 'package:ungsugar/states/main_home.dart';
 import 'package:ungsugar/utility/app_constant.dart';
 import 'package:ungsugar/utility/app_controller.dart';
 import 'package:dio/dio.dart' as dio;
@@ -103,6 +104,25 @@ class AppService {
       });
     }).catchError((onError) {
       context.loaderOverlay.hide();
+      Get.snackbar(onError.code, onError.message,
+          backgroundColor: GFColors.DANGER, colorText: GFColors.WHITE);
+    });
+  }
+
+  Future<void> processCheckLogin({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((value) {
+      context.loaderOverlay.hide();
+      Get.offAll(const MainHome());
+      Get.snackbar('Authen Success', 'Welcome to MyApp ${value.user!.uid}');
+    }).catchError((onError) {
+      context.loaderOverlay.hide();
+
       Get.snackbar(onError.code, onError.message,
           backgroundColor: GFColors.DANGER, colorText: GFColors.WHITE);
     });

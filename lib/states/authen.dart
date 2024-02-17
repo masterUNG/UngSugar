@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:ungsugar/states/create_new_account.dart';
 import 'package:ungsugar/utility/app_constant.dart';
 import 'package:ungsugar/utility/app_controller.dart';
+import 'package:ungsugar/utility/app_service.dart';
 import 'package:ungsugar/widgets/widget_button.dart';
 import 'package:ungsugar/widgets/widget_form.dart';
 import 'package:ungsugar/widgets/widget_icon_button.dart';
@@ -24,42 +26,47 @@ class _AuthenState extends State<Authen> {
   //key ที่ใช้ในการเช็ค validate
   final formKey = GlobalKey<FormState>();
 
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 64),
-                  width: 250,
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      children: [
-                        displayLogoAndAppName(),
-                        emailForm(),
-                        passwordForm(),
-                        loginButton(),
-                      ],
+    return LoaderOverlay(
+      child: Scaffold(
+        body: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: ListView(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 64),
+                    width: 250,
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          displayLogoAndAppName(),
+                          emailForm(),
+                          passwordForm(),
+                          loginButton(),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-      bottomSheet: WidgetButton(
-        label: 'Create New Account',
-        pressFunc: () {
-          Get.to(const CreateNewAccount());
-        },
-        gfButtonType: GFButtonType.transparent,
+        bottomSheet: WidgetButton(
+          label: 'Create New Account',
+          pressFunc: () {
+            Get.to(const CreateNewAccount());
+          },
+          gfButtonType: GFButtonType.transparent,
+        ),
       ),
     );
   }
@@ -71,12 +78,16 @@ class _AuthenState extends State<Authen> {
       child: WidgetButton(
         label: 'Login',
         pressFunc: () {
-
           if (formKey.currentState!.validate()) {
-            
+            //Start Process
+            context.loaderOverlay.show();
+
+            AppService().processCheckLogin(
+              email: emailController.text,
+              password: passwordController.text,
+              context: context,
+            );
           }
-
-
         },
       ),
     );
@@ -84,6 +95,7 @@ class _AuthenState extends State<Authen> {
 
   Obx passwordForm() {
     return Obx(() => WidgetForm(
+          textEditingController: passwordController,
           validateFunc: (p0) {
             if (p0?.isEmpty ?? true) {
               return 'Please Fill Password';
@@ -106,6 +118,7 @@ class _AuthenState extends State<Authen> {
 
   WidgetForm emailForm() {
     return WidgetForm(
+      textEditingController: emailController,
       validateFunc: (p0) {
         if (p0?.isEmpty ?? true) {
           return 'Please Fill Email';
