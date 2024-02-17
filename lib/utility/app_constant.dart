@@ -4,6 +4,8 @@ class AppConstant {
   //field
   static Color fieldColor = Colors.grey.withOpacity(0.4);
 
+  static String urlAPI = 'http://110.164.149.104:9295/fapi/userFlutter';
+
   //method
   TextStyle h1Style() {
     return const TextStyle(
