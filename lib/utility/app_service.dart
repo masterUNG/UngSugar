@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:ungsugar/models/area_model.dart';
 import 'package:ungsugar/models/respon_model.dart';
@@ -221,5 +222,33 @@ class AppService {
       Get.snackbar('Add Success', 'ThankYou');
       appController.indexBody.value = 0;
     });
+  }
+
+  Future<void> processReadAllArea() async {
+    var user = FirebaseAuth.instance.currentUser;
+
+    await FirebaseFirestore.instance
+        .collection('user')
+        .doc(user!.uid)
+        .collection('area').orderBy('timestamp', descending: true)
+        .get()
+        .then((value) {
+      if (appController.areaModels.isNotEmpty) {
+        appController.areaModels.clear();
+      }
+
+      if (value.docs.isNotEmpty) {
+        for (var element in value.docs) {
+          AreaModel areaModel = AreaModel.fromMap(element.data());
+          appController.areaModels.add(areaModel);
+        }
+      }
+    });
+  }
+
+  String convertTimeToString({required Timestamp timestamp}) {
+    DateFormat dateFormat = DateFormat('dd MMMM yy HH:mm');
+    String result = dateFormat.format(timestamp.toDate());
+    return result;
   }
 }

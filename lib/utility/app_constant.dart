@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ungsugar/widgets/body_list_user.dart';
+import 'package:ungsugar/widgets/body_list_area.dart';
 import 'package:ungsugar/widgets/body_location.dart';
 import 'package:ungsugar/widgets/body_profile.dart';
 
@@ -7,7 +7,7 @@ class AppConstant {
   //field
 
   static List<String> titles = <String>[
-    'List User',
+    'List Area',
     'My Location',
     'Profile',
   ];
@@ -19,7 +19,7 @@ class AppConstant {
   ];
 
   static List<Widget> bodys = <Widget>[
-    const BodyListUser(),
+    const BodyListArea(),
     const BodyLocation(),
     const BodyProfile(),
   ];
