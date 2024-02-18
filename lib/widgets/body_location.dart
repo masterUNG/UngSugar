@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ungsugar/utility/app_controller.dart';
 import 'package:ungsugar/utility/app_service.dart';
 import 'package:ungsugar/widgets/widget_icon_button.dart';
@@ -43,7 +44,21 @@ class _BodyLocationState extends State<BodyLocation> {
                   left: 32,
                   child: WidgetIconButton(
                     iconData: Icons.add_box,
-                    pressFunc: () {},
+                    pressFunc: () {
+                      AppService().processFindLocation().then((value) {
+                        print(appController.positions.last.toString());
+
+                        MarkerId markerId =
+                            MarkerId('id${appController.mapMarkers.length}');
+                        Marker marker = Marker(
+                            markerId: markerId,
+                            position: LatLng(
+                                appController.positions.last.latitude,
+                                appController.positions.last.longitude));
+
+                        appController.mapMarkers[markerId] = marker;
+                      });
+                    },
                     size: GFSize.LARGE,
                     gfButtonType: GFButtonType.outline2x,
                   ),
