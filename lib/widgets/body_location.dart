@@ -5,6 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ungsugar/utility/app_controller.dart';
 import 'package:ungsugar/utility/app_dialog.dart';
 import 'package:ungsugar/utility/app_service.dart';
+import 'package:ungsugar/widgets/widget_button.dart';
+import 'package:ungsugar/widgets/widget_form.dart';
 import 'package:ungsugar/widgets/widget_icon_button.dart';
 import 'package:ungsugar/widgets/widget_map.dart';
 import 'package:ungsugar/widgets/widget_text.dart';
@@ -20,6 +22,9 @@ class _BodyLocationState extends State<BodyLocation> {
   AppController appController = Get.put(AppController());
 
   var latlngs = <LatLng>[];
+
+  final formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
 
   @override
   void initState() {
@@ -123,7 +128,34 @@ class _BodyLocationState extends State<BodyLocation> {
                               size: GFSize.LARGE,
                               gfButtonType: GFButtonType.outline2x,
                               pressFunc: () {
-                                AppDialog().narmalDialog(title: 'Confirm Save');
+                                AppDialog().narmalDialog(
+                                    title: 'Confirm Save',
+                                    contentWidget: Form(
+                                      key: formKey,
+                                      child: WidgetForm(
+                                        textEditingController: nameController,
+                                        validateFunc: (p0) {
+                                          if (p0?.isEmpty ?? true) {
+                                            return 'กรุณากรอกชื่อพื่นที่ด้วย';
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        labelWidget: const WidgetText(
+                                            data: 'ชื่อพื่นที่ :'),
+                                      ),
+                                    ),
+                                    firstWidget: WidgetButton(
+                                      label: 'Save',
+                                      pressFunc: () {
+                                        if (formKey.currentState!.validate()) {
+                                          Get.back();
+                                          AppService().processSaveArea(
+                                              nameArea: nameController.text,
+                                              latlngs: latlngs);
+                                        }
+                                      },
+                                    ));
                               },
                             )
                           : const SizedBox()),
