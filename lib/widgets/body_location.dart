@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ungsugar/utility/app_controller.dart';
 import 'package:ungsugar/utility/app_service.dart';
+import 'package:ungsugar/widgets/widget_map.dart';
 import 'package:ungsugar/widgets/widget_text.dart';
 
 class BodyLocation extends StatefulWidget {
@@ -25,6 +26,10 @@ class _BodyLocationState extends State<BodyLocation> {
   Widget build(BuildContext context) {
     return Obx(() => appController.positions.isEmpty
         ? const SizedBox()
-        : WidgetText(data: appController.positions.last.toString()));
+        : WidgetMap(
+            lat: appController.positions.last.latitude,
+            lng: appController.positions.last.longitude,
+            myLocationEnable: true,
+          ));
   }
 }
