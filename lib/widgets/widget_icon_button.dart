@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:ungsugar/utility/app_constant.dart';
 
 class WidgetIconButton extends StatelessWidget {
   const WidgetIconButton({
@@ -23,6 +24,7 @@ class WidgetIconButton extends StatelessWidget {
       onPressed: pressFunc,
       type: gfButtonType ?? GFButtonType.transparent,
       size: size ?? GFSize.MEDIUM,
+      color: AppConstant.secondColor,
     );
   }
 }

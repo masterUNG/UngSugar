@@ -5,9 +5,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ungsugar/states/authen.dart';
+import 'package:ungsugar/states/intro.dart';
 import 'package:ungsugar/states/main_home.dart';
 
 var getPages = <GetPage<dynamic>>[
+  GetPage(
+    name: '/intro',
+    page: () => const Intro(),
+  ),
   GetPage(
     name: '/authen',
     page: () => const Authen(),
@@ -18,7 +23,7 @@ var getPages = <GetPage<dynamic>>[
   ),
 ];
 
-String firstState = '/authen';
+String firstState = '/intro';
 
 Future<void> main() async {
   HttpOverrides.global = MyHttpOverride();

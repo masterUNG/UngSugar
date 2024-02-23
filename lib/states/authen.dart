@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -35,39 +36,62 @@ class _AuthenState extends State<Authen> {
       child: Scaffold(
         body: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: ListView(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 64),
-                    width: 250,
-                    child: Form(
-                      key: formKey,
-                      child: Column(
-                        children: [
-                          displayLogoAndAppName(),
-                          emailForm(),
-                          passwordForm(),
-                          loginButton(),
-                        ],
-                      ),
+          child: Container(
+            width: Get.width,
+            height: Get.height,
+            decoration:
+                AppConstant().radialBox(center: const Alignment(-0.5, -0.5)),
+            child: Stack(
+              children: [
+                ListView(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 64),
+                          width: 250,
+                          child: Form(
+                            key: formKey,
+                            child: Column(
+                              children: [
+                                displayLogoAndAppName(),
+                                emailForm(),
+                                passwordForm(),
+                                loginButton(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Positioned(bottom: 8,
+                  child: SizedBox(width: Get.width,
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        createNewAccountButton(),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
-        bottomSheet: WidgetButton(
-          label: 'Create New Account',
-          pressFunc: () {
-            Get.to(const CreateNewAccount());
-          },
-          gfButtonType: GFButtonType.transparent,
-        ),
+       
       ),
+    );
+  }
+
+  WidgetButton createNewAccountButton() {
+    return WidgetButton(
+      label: 'Create New Account',
+      pressFunc: () {
+        Get.to(const CreateNewAccount());
+      },
+      gfButtonType: GFButtonType.transparent,
     );
   }
 

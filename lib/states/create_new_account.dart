@@ -44,6 +44,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
       child: Scaffold(
         appBar: AppBar(
           title: const WidgetText(data: 'Create New Accoun'),
+          leading: WidgetIconButton(iconData: Icons.clear, pressFunc: () => Get.back(),),
         ),
         body: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
